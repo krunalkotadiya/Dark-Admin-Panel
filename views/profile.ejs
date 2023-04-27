@@ -1,0 +1,33 @@
+<%- include("header") %>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Profile Update</h6>
+                <form method="post" action="/profile-update" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" value="<%= locals.user.name %>">
+                        <div id="emailHelp" class="form-text">We'll never share your Details with anyone else.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="exampleInputPassword1" name="email" value="<%= locals.user.email %>">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <img class="rounded-circle me-lg-2" src="<%= locals.user.avtar %>" width="100">
+                        <!-- <label for="formFile" class="form-label">Default file input example</label> -->
+                        <input class="form-control bg-dark" type="file" id="formFile" name="avtar">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include("footer") %>
