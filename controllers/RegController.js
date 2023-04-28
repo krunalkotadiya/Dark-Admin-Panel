@@ -47,7 +47,7 @@ const registerData = async (req,res) => {
         let user = await Amodel.create(req.body);
         if(user){
             console.log("user successfully create");
-            return res.redirect('/');
+            return res.redirect('/admin');
         }else{
             console.log("user unsuccessfully create");
             return res.redirect('back');
@@ -71,7 +71,7 @@ const logout = (req,res)=>{
         if(error){
             console.log(error);
         }
-        return res.redirect('/')
+        return res.redirect('/admin')
     })
    
 }

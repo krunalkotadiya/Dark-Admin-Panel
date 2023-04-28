@@ -43,7 +43,9 @@ app.use(session({
 
 
 
-app.use('/',require('./routes'));
+app.use('/',require('./routes/user-routes'));
+app.use('/',require('./routes/index'))
+app.use('/',require('./routes/Slider'))
 app.listen(port,(err)=>{
     if(err){
         console.log(err);

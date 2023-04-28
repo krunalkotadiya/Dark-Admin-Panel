@@ -7,7 +7,7 @@ const routes = express.Router();
 const {login,register,registerData,loginData,dash,logout,forgot,forgotpassword,otp,otpdata,reset,resetdata,profile,profieupdate,yom} = require('../controllers/RegController');
 
 
-routes.get('/',login)
+routes.get('/admin',login)
 routes.get('/register',register)
 routes.get('/dash',passport.checkAuthentication,dash)
 routes.get('/forgot',forgot)
