@@ -62,17 +62,17 @@
                                     <td>
                                         <img src="<%= val.avtar %>" alt="Image" width="100">
                                     </td>
-                                    <!-- <td>
-                                        <% if(val.status == '1' ) { %>
-
+                                    <td>
+                                        <% if(val.status === '1' ) { %>
+                                                <a href="/Active/<%= val.id %>" class="btn btn-primary">Active</a>
                                         <% } else { %>
-
+                                                <a href="/Deactive/<%= val.id %>" class="btn btn-warning">Deactive</a>
                                         <% } %>
                                     </td>
                                     <td>
-                                        <a href="/delete/<%= val._id %>" class="btn btn-danger">Delete</a> ||
+                                        <a href="/delete/<%= val._id %>" class="btn btn-danger">Delete</a> 
                                         <a href="/edit/<%= val.id %>" class="btn btn-success">Edit</a>
-                                    </td> -->
+                                    </td>
                                 </tr>
 
 

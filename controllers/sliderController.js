@@ -33,7 +33,7 @@ const deleteData = async(req,res)=>{
     try {
         const {params : {_id } } = req
         const deleteData = await sliderModel.findByIdAndDelete({_id});
-        fs.utimesSync(deleteData.avtar)
+        fs.unlinkSync(deleteData.avtar)
         await res.redirect('back');
 
     } catch (error) {
@@ -44,16 +44,65 @@ const deleteData = async(req,res)=>{
 
 const editData = async(req,res)=>{
     try {
-        const {params : {_id } } = req
-        const data = await sliderModel.findById({_id});
-        // res.render()
+        const {params : {_id} } = req
+        const data = await sliderModel.findById({_id})
+        res.render('yom_slider_update' , {data})
     } catch (error) {
         console.log(error);
         res.redirect('back');
     }
 }
 
+const updateData = async(req,res) =>{
+    try {
+        const {params : {_id} } = req ; 
+        if(req.file){
+            const img = `${imgPath}/${req.file.filename}`
+            const dataupdate =  await sliderModel.findByIdAndUpdate(_id , Object.assign({avtar : img } , req.body));
+            if(dataupdate){
+                fs.unlinkSync(dataupdate.avtar)
+            }
+            res.redirect('/slider')
+        }else{
+            const obj = req.body ; 
+            const data =  await sliderModel.findByIdAndUpdate(_id ,obj)
+            if(data){
+                return res.redirect('/slider')
+            }
+        }
+    } catch (error) {
+            console.log(error);
+            return res.redirect('back');
+    }
+}
+
+const Active = async (req, res) => {
+    try {
+        const { params: { _id } } = req
+        await sliderModel.findByIdAndUpdate(_id, {
+            status: '0'
+        })
+        res.redirect('back')
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('back')
+    }
+}
+
+const Deactive = async (req, res) => {
+    try {
+        const { params: { _id } } = req
+        await sliderModel.findByIdAndUpdate(_id, {
+            status: '1'
+        })
+        res.redirect('back')
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('back')
+    }
+}
 
 
-module.exports = {slider,insertData,deleteData,editData}
+
+module.exports = {slider,insertData,deleteData,editData,Deactive,Active,updateData}
 
