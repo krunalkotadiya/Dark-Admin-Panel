@@ -48,7 +48,34 @@ const editblog = async(req,res)=>{
     try {
         const {params : {_id} } = req ;
         const data = await model.findById({_id})
-        await res.render('update-blog',{data}) 
+        await res.render('blog_update',{data}) 
+    } catch (error) {
+        console.log(error);
+        res.redirect('back')
+    }
+}
+
+const updateblog = async(req,res)=>{
+    try {
+        const {params : {_id} } = req
+
+        if(req.file){
+            const img = `${imgPath}/${req.file.filename}`
+            const updatedata = await model.findByIdAndUpdate(_id , Object.assign({avtar : img} , req.body));
+
+            if(updatedata){
+                fs.unlinkSync(updatedata.avtar)
+            }
+            return res.redirect('/blog-page')
+
+        }else{
+            const obj = req.body
+            const data = await model.findByIdAndUpdate(_id , obj)
+            if(data){
+                return res.redirect('/blog-page')
+            }
+        }
+
     } catch (error) {
         console.log(error);
         res.redirect('back')
@@ -81,4 +108,4 @@ const Deactiveblog = async(req,res)=>{
     }
 }
 
-module.exports = {blogPage,insertBlog,deleteblog,editblog,Activeblog,Deactiveblog}
+module.exports = {blogPage,insertBlog,deleteblog,editblog,Activeblog,Deactiveblog,updateblog}

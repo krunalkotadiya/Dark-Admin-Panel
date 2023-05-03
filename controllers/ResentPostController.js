@@ -3,11 +3,11 @@ const path = require('path');
 const fs = require('fs')
 const imagPath = path.join('uploads');
 
-const recentpage = async(req,res)=>{
+const recentpage = async (req, res) => {
     try {
         const data = await model.find({})
-        if(data){
-            await res.render('recent-post',{data})
+        if (data) {
+            await res.render('recent-post', { data })
         }
     } catch (error) {
         console.log(error);
@@ -15,12 +15,12 @@ const recentpage = async(req,res)=>{
     }
 }
 
-const postinsert = async(req,res)=>{
+const postinsert = async (req, res) => {
     try {
         const img = `${imagPath}/${req.file.filename}`
-        const postadd = await model.create(Object.assign({avtar : img} , req.body));
-        
-        if(postadd){
+        const postadd = await model.create(Object.assign({ avtar: img }, req.body));
+
+        if (postadd) {
             return res.redirect('back');
         }
 
@@ -30,10 +30,10 @@ const postinsert = async(req,res)=>{
     }
 }
 
-const deletepost = async(req,res)=>{
+const deletepost = async (req, res) => {
     try {
-        const {params : {_id} } = req
-        const postdelete = await model.findByIdAndDelete({_id})
+        const { params: { _id } } = req
+        const postdelete = await model.findByIdAndDelete({ _id })
         fs.unlinkSync(postdelete.avtar);
         await res.redirect('back');
     } catch (error) {
@@ -42,22 +42,52 @@ const deletepost = async(req,res)=>{
     }
 }
 
-const editpost = async(req,res)=>{
+const editpost = async (req, res) => {
     try {
-        const {params : {_id} } = req
-        const data = await model.findById({_id});
-        res.render('update-post', {data} );
+        const { params: { _id } } = req
+        const data = await model.findById({ _id });
+        res.render('post_update', { data });
     } catch (error) {
         console.log(error);
         res.redirect('back')
     }
 }
 
-const activepost = async(req,res)=>{
+const updatepost = async (req, res) => {
     try {
-        const {params : {_id} } = req
-        await model.findByIdAndUpdate({
-            status : '0'
+        const { params: { _id } } = req
+        if (req.file) {
+
+            const img = `${imagPath}/${req.file.filename}`
+            const updatedata = await model.findByIdAndUpdate({ avtar: img }, req.body)
+
+            if (updatedata) {
+
+                fs.unlinkSync(updatedata.avtar)
+
+            }
+            return res.redirect('/recent-post')
+        }else{
+
+            const obj = req.body
+            const data = await model.findByIdAndUpdate(_id , obj)
+            if(data){
+                return res.redirect('/recent-post')
+            }
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.redirect('back')
+    }
+}
+
+const activepost = async (req, res) => {
+    try {
+        const { params: { _id } } = req
+        await model.findByIdAndUpdate(_id, {
+            status: '0'
         })
         res.redirect('back')
     } catch (error) {
@@ -66,11 +96,11 @@ const activepost = async(req,res)=>{
     }
 }
 
-const deactivepost = async(req,res)=>{
+const deactivepost = async (req, res) => {
     try {
-        const {params : {_id} } = req
-        await model.findByIdAndUpdate({
-            status : '1'
+        const { params: { _id } } = req
+        await model.findByIdAndUpdate(_id, {
+            status: '1'
         })
         res.redirect('back')
     } catch (error) {
@@ -80,4 +110,4 @@ const deactivepost = async(req,res)=>{
 }
 
 
-module.exports = {recentpage,postinsert,deletepost,editpost,activepost,deactivepost}
+module.exports = { recentpage, postinsert, deletepost, editpost, activepost, deactivepost, updatepost }
