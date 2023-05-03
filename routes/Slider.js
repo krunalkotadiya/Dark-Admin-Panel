@@ -8,7 +8,7 @@ const {slider,insertData,deleteData,editData,Active,Deactive,updateData} = requi
 
 //page-Routers
 
-routes.get('/slider',slider);
+routes.get('/slider',passport.checkAuthentication,slider);
 
 //Data-Routers
 

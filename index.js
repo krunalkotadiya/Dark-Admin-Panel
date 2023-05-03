@@ -30,7 +30,7 @@ app.use(session({
     }),
     saveUninitialized: true,
         cookie : {
-            maxAge : 1000*60*60
+            maxAge : 1000*60*60*60
         }
   }));
 
@@ -43,9 +43,11 @@ app.use(session({
 
 
 
-app.use('/',require('./routes/user-routes'));
+app.use('/',require('./routes/user-routes'))
 app.use('/',require('./routes/index'))
 app.use('/',require('./routes/Slider'))
+app.use('/',require('./routes/blog'))
+app.use('/',require('./routes/resentpost'))
 app.listen(port,(err)=>{
     if(err){
         console.log(err);
